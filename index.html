@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Examen de Punto de Control - Módulos 16 y 17</title>
   
-  <!-- Optimización para vista móvil tipo App -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -74,14 +73,20 @@
     .q-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
     .q-text { font-size: 1.1rem; font-weight: 600; line-height: 1.5; margin-bottom: 20px; }
     .options-list { display: flex; flex-direction: column; gap: 12px; }
-    .opt-btn { background: #0b0f19; border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; text-align: left; color: var(--text-main); font-size: 0.95rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: space-between; }
-    .opt-btn:hover { border-color: var(--accent); }
-    .opt-btn.correct { background: var(--correct-bg); border-color: var(--correct); color: #4ade80; }
-    .opt-btn.incorrect { background: var(--incorrect-bg); border-color: var(--incorrect); color: #f87171; }
+    
+    .opt-item { background: #0b0f19; border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; text-align: left; color: var(--text-main); font-size: 0.95rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 12px; }
+    .opt-item:hover { border-color: var(--accent); }
+    .opt-item input { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; }
+    
+    .opt-item.correct { background: var(--correct-bg); border-color: var(--correct); color: #4ade80; }
+    .opt-item.incorrect { background: var(--incorrect-bg); border-color: var(--incorrect); color: #f87171; }
+    
     .explanation-box { margin-top: 16px; padding: 16px; background: #0f172a; border-left: 4px solid var(--accent); border-radius: 6px; font-size: 0.9rem; line-height: 1.5; display: none; }
-    .nav-btns { display: flex; justify-content: flex-end; margin-top: 20px; }
+    .nav-btns { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; gap: 12px; }
     .btn-action { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main); padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; }
     .btn-action:hover { border-color: var(--accent); }
+    .btn-submit { background: var(--accent); color: #000; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
   </style>
 </head>
 <body>
@@ -166,6 +171,7 @@
     </div>
 
     <div class="nav-btns">
+      <button class="btn-submit" id="btn-check" onclick="submitMultiAnswer()">Verificar respuesta</button>
       <button class="btn-action" onclick="nextQuestion()" id="btn-next">Siguiente →</button>
     </div>
   </div>
@@ -192,13 +198,13 @@
         "Cambiar las contraseñas del sistema cada 30 días",
         "Asegurar que todos los sistemas tengan las definiciones de virus más actuales"
       ],
-      answer: "Descargar actualizaciones de seguridad del proveedor del sistema operativo y aplicar parches a todos los sistemas vulnerables",
+      answers: ["Descargar actualizaciones de seguridad del proveedor del sistema operativo y aplicar parches a todos los sistemas vulnerables"],
       explanation: "Dado que los gusanos explotan vulnerabilidades en el código del sistema operativo para propagarse sin interacción del usuario, la mitigación primordial es aplicar los parches de seguridad correspondientes."
     },
     {
       question: "Un técnico debe documentar las configuraciones actuales de todos los dispositivos de red de una universidad, incluidos los de los edificios que se encuentran en otra ubicación. ¿Cuál sería el mejor protocolo para acceder de forma segura a los dispositivos?",
       options: ["SSH", "Telnet", "HTTP", "FTP"],
-      answer: "SSH",
+      answers: ["SSH"],
       explanation: "SSH cifra todo el tráfico de administración (incluyendo contraseñas), a diferencia de Telnet que envía el texto plano."
     },
     {
@@ -209,7 +215,7 @@
         "Malware que se replica automáticamente sin interacción del usuario",
         "Software que monitorea las teclas pulsadas para robar contraseñas"
       ],
-      answer: "Malware que parece un juego inofensivo pero ejecuta acciones dañinas en segundo plano",
+      answers: ["Malware que parece un juego inofensivo pero ejecuta acciones dañinas en segundo plano"],
       explanation: "Un caballo de Troya es un programa que aparenta realizar una función útil o inofensiva, pero oculta un código malicioso."
     },
     {
@@ -222,7 +228,7 @@
         "Autenticación RADIUS",
         "Inspección de paquetes con estado"
       ],
-      answer: "Robo de información",
+      answers: ["Robo de información", "Robo de identidad", "Pérdida o manipulación de datos", "Interrupción del servicio"],
       explanation: "Las cuatro amenazas primarias identificadas en seguridad son: robo de información, robo de identidad, pérdida o manipulación de datos e interrupción del servicio."
     },
     {
@@ -233,7 +239,7 @@
         "AAA es un protocolo utilizado para encriptar el tráfico Web mediante HTTPS.",
         "La autorización es el proceso de verificar la identidad mediante contraseñas."
       ],
-      answer: "La autenticación requiere que los usuarios prueben quiénes son, la autorización determina a qué recursos acceden y el registro rastrea sus acciones.",
+      answers: ["La autenticación requiere que los usuarios prueben quiénes son, la autorización determina a qué recursos acceden y el registro rastrea sus acciones."],
       explanation: "AAA corresponde a Authentication (autenticar identidad), Authorization (definir privilegios/permisos) y Accounting (registrar las actividades del usuario)."
     },
     {
@@ -244,7 +250,7 @@
         "El protocolo TCP/IP no está activado",
         "El router conectado a la misma red está inactivo"
       ],
-      answer: "Nada se puede determinar con certeza en este momento",
+      answers: ["Nada se puede determinar con certeza en este momento"],
       explanation: "Los firewalls locales o las reglas de seguridad de los dispositivos pueden estar bloqueando las peticiones ICMP, por lo que un ping fallido no confirma necesariamente una falla de hardware."
     },
     {
@@ -255,7 +261,7 @@
         "Asigna direcciones IP privadas a direcciones IP públicas de manera dinámica",
         "Bloquea el acceso a todas las conexiones entrantes sin importar su origen"
       ],
-      answer: "Impide o permite el acceso en función de si el tráfico responde a solicitudes legítimas iniciadas por hosts internos",
+      answers: ["Impide o permite el acceso en función de si el tráfico responde a solicitudes legítimas iniciadas por hosts internos"],
       explanation: "Un firewall con estado monitorea las sesiones activas y permite que el tráfico entrante ingrese solo si es una respuesta explícita a una solicitud iniciada dentro de la red local."
     },
     {
@@ -266,7 +272,7 @@
         "1. Documentar -> 2. Probar cambios -> 3. Identificar problema -> 4. Reemplazar router",
         "1. Reiniciar el dispositivo -> 2. Verificar IP -> 3. Contactar al proveedor"
       ],
-      answer: "1. Identificar el problema -> 2. Establecer teoría de causa -> 3. Probar teoría -> 4. Plan de acción -> 5. Verificar funcionalidad e implementar prevención -> 6. Documentar",
+      answers: ["1. Identificar el problema -> 2. Establecer teoría de causa -> 3. Probar teoría -> 4. Plan de acción -> 5. Verificar funcionalidad e implementar prevención -> 6. Documentar"],
       explanation: "Es el procedimiento metodológico estándar de 6 pasos recomendado para diagnosticar y solventar fallos."
     },
     {
@@ -277,13 +283,13 @@
         "Debe consistir en secuencias numéricas simples de más de 12 dígitos para recordar fácilmente",
         "Las mejores contraseñas son los nombres de mascotas escritos al revés"
       ],
-      answer: "Debe tener al menos 8 a 10 caracteres, combinando mayúsculas, minúsculas, números y caracteres especiales, evitando palabras del diccionario",
+      answers: ["Debe tener al menos 8 a 10 caracteres, combinando mayúsculas, minúsculas, números y caracteres especiales, evitando palabras del diccionario"],
       explanation: "Las mejores prácticas exigen el uso de una longitud adecuada y variabilidad de caracteres sin patrones ni palabras de diccionario."
     },
     {
       question: "Un ingeniero de red necesita averiguar el nombre de host, dirección IP y versión de IOS de un dispositivo vecino conectado directamente. ¿Qué comando de Cisco IOS debe utilizar?",
       options: ["show cdp neighbors detail", "show ip route", "show version", "show interfaces"],
-      answer: "show cdp neighbors detail",
+      answers: ["show cdp neighbors detail"],
       explanation: "El comando `show cdp neighbors detail` despliega la dirección de capa 3, la versión de software del sistema y los detalles del equipo vecino."
     },
     {
@@ -294,489 +300,23 @@
         "Para asignar automáticamente direcciones IP a los nuevos dispositivos",
         "Para acelerar la velocidad de sincronización del enrutador"
       ],
-      answer: "Para documentar y analizar los requisitos de tráfico normales y comparar el rendimiento futuro o detectar anomalías",
+      answers: ["Para documentar y analizar los requisitos de tráfico normales y comparar el rendimiento futuro o detectar anomalías"],
       explanation: "Una línea de base permite medir las condiciones típicas de funcionamiento para identificar cualquier desviación anómala más adelante."
     },
     {
       question: "¿Qué utilidad de línea de comandos mide los tiempos de respuesta e indica la ruta salto por salto realizada por los paquetes hacia un destino?",
       options: ["tracert", "ping", "nslookup", "ipconfig"],
-      answer: "tracert",
+      answers: ["tracert"],
       explanation: "Tracert (o traceroute) rastrea la trayectoria de los paquetes a través de los enrutadores intermedios hasta llegar al host de destino."
     },
     {
       question: "¿Qué comando en un switch o router Cisco permite configurar el tiempo de inactividad antes de que la sesión CLI de un usuario se cierre automáticamente?",
       options: ["exec-timeout", "login local", "service password-encryption", "banner motd"],
-      answer: "exec-timeout",
+      answers: ["exec-timeout"],
       explanation: "El comando `exec-timeout <minutos> <segundos>` finaliza la sesión tras un período determinado de inactividad."
     },
     {
       question: "Un administrador de red ejecuta el comando `ping` y nota tiempos de respuesta elevados en milisegundos entre dos redes. ¿Qué indica este resultado?",
       options: [
         "Algo está causando un retraso de tiempo o congestión entre las redes",
-        "La interfaz del router de origen se encuentra dañada",
-        "Se está utilizando una dirección IPv6 no válida",
-        "El servidor DNS está fuera de línea"
-      ],
-      answer: "Algo está causando un retraso de tiempo o congestión entre las redes",
-      explanation: "Un RTT (tiempo de ida y vuelta) elevado indica cuellos de botella, problemas de procesamiento o saturación de enlace en la ruta."
-    },
-    {
-      question: "¿Qué tipo de ataque de seguridad busca inundar un dispositivo de red con tantas solicitudes que deja de responder al tráfico legítimo?",
-      options: [
-        "Ataque de Denegación de Servicio (DoS / DDoS)",
-        "Ataque de Man-in-the-Middle",
-        "Ataque de Phishing",
-        "Ataque de Suplantación de IP (IP Spoofing)"
-      ],
-      answer: "Ataque de Denegación de Servicio (DoS / DDoS)",
-      explanation: "Los ataques DoS o DDoS intentan inhabilitar servicios o servidores mediante la sobrecarga de solicitudes de datos."
-    },
-    {
-      question: "¿Qué tipo de virus o programa malicioso se caracteriza por replicarse de forma autónoma a través de la red sin necesidad de infectar un archivo anfitrión?",
-      options: ["Gusano (Worm)", "Troyano", "Virus de macro", "Spyware"],
-      answer: "Gusano (Worm)",
-      explanation: "Los gusanos explotan automáticamente las vulnerabilidades de la red sin requerir que un usuario ejecute un archivo infectado."
-    },
-    {
-      question: "¿Qué comando se utiliza para borrar la memoria caché DNS local en un cliente de Windows?",
-      options: ["ipconfig /flushdns", "ipconfig /renew", "netstat -r", "nslookup /clear"],
-      answer: "ipconfig /flushdns",
-      explanation: "El parámetro `/flushdns` limpia las entradas de resolución de nombres guardadas en la memoria caché del cliente local."
-    },
-    {
-      question: "¿Qué protocolo de seguridad utiliza un sistema de autenticación centralizado basado en un servidor de acceso de usuarios como TACACS+ o RADIUS?",
-      options: ["Servicios AAA", "Filtrado MAC", "Inspección ARP", "IPsec"],
-      answer: "Servicios AAA",
-      explanation: "AAA utiliza protocolos de arquitectura servidor como TACACS+ o RADIUS para administrar las credenciales del personal de red."
-    },
-    {
-      question: "¿Qué comando de Cisco IOS encripta todas las contraseñas en texto plano almacenadas en el archivo de configuración?",
-      options: ["service password-encryption", "enable secret", "crypto key generate rsa", "ip domain-name"],
-      answer: "service password-encryption",
-      explanation: "Este comando aplica un algoritmo de encriptación básico a las contraseñas que están en texto claro en el archivo `running-config`."
-    },
-    {
-      question: "¿Qué comando se debe utilizar para crear una contraseña cifrada de alta seguridad para ingresar al modo EXEC privilegiado en un router Cisco?",
-      options: ["enable secret <contraseña>", "enable password <contraseña>", "username admin password <contraseña>", "line vty 0 4 password <contraseña>"],
-      answer: "enable secret <contraseña>",
-      explanation: "`enable secret` guarda la contraseña con un hash seguro, prevaleciendo sobre `enable password`."
-    },
-    {
-      question: "¿Qué herramienta integrada en los sistemas operativos permite verificar si la pila del protocolo TCP/IP local funciona correctamente?",
-      options: ["ping 127.0.0.1", "ping 8.8.8.8", "tracert localhost", "ipconfig /all"],
-      answer: "ping 127.0.0.1",
-      explanation: "Un ping a la dirección loopback 127.0.0.1 o ::1 valida el funcionamiento interno del protocolo TCP/IP del propio dispositivo."
-    },
-    {
-      question: "Al configurar SSH en un router Cisco, ¿qué elemento obligatorio se requiere generar para poder cifrar el tráfico de la sesión?",
-      options: ["Una clave criptográfica RSA", "Una lista de acceso ACL", "Una VLAN de administración", "Un servidor DHCP interno"],
-      answer: "Una clave criptográfica RSA",
-      explanation: "Se necesita ejecutar `crypto key generate rsa` para crear el par de claves públicas y privadas necesarias para el cifrado SSH."
-    },
-    {
-      question: "¿Qué técnica de mitigación de seguridad física evita el acceso no autorizado a los puertos de consola o dispositivos de red?",
-      options: [
-        "Gabinete bajo llave y control de acceso físico con tarjetas o biometría",
-        "Configurar contraseñas en los puertos VTY",
-        "Usar el comando service password-encryption",
-        "Desactivar el protocolo CDP"
-      ],
-      answer: "Gabinete bajo llave y control de acceso físico con tarjetas o biometría",
-      explanation: "Impedir el acceso físico a los bastidores e infraestructuras clave es la primera barrera protectora de la red."
-    },
-    {
-      question: "¿Qué tipo de amenaza de seguridad ocurre cuando un atacante envía correos fraudulentos diseñados para engañar a los usuarios y hacer que revelen datos confidenciales?",
-      options: ["Phishing", "Man-in-the-Middle", "Gusano", "Suplantación de MAC"],
-      answer: "Phishing",
-      explanation: "El phishing busca obtener datos personales o claves fingiendo ser una entidad u organización confiable."
-    },
-    {
-      question: "¿Qué opción describe mejor un ataque de Man-in-the-Middle (MitM)?",
-      options: [
-        "Un atacante intercepta y potencialmente altera la comunicación entre dos dispositivos sin que estos lo sepan",
-        "Un atacante satura un servidor con tráfico malicioso hasta bloquearlo",
-        "Un programa no deseado muestra publicidad engañosa en la pantalla del usuario",
-        "Un usuario no autorizado adivina la contraseña mediante prueba y error"
-      ],
-      answer: "Un atacante intercepta y potencialmente altera la comunicación entre dos dispositivos sin que estos lo sepan",
-      explanation: "Un ataque MitM intercepta la vía de comunicación permitiendo la lectura o modificación de los paquetes de datos transmitidos."
-    },
-    {
-      question: "¿Qué información NO se incluye en el resultado del comando `show interfaces` en un router Cisco?",
-      options: ["Las contraseñas de configuración de las líneas VTY", "La dirección MAC de la interfaz", "La tasa de errores de entrada/salida y colisiones", "El estado operativo del enlace (Up/Down)"],
-      answer: "Las contraseñas de configuración de las líneas VTY",
-      explanation: "El comando `show interfaces` detalla parámetros técnicos del nivel 1 y 2 de red, no configuraciones de seguridad."
-    },
-    {
-      question: "¿Qué comando de Cisco IOS permite guardar la configuración activa de la RAM a la memoria NVRAM?",
-      options: ["copy running-config startup-config", "copy startup-config running-config", "write erase", "reload"],
-      answer: "copy running-config startup-config",
-      explanation: "Este comando copia la configuración en ejecución (RAM) en la memoria no volátil (NVRAM) para conservarla tras reiniciar."
-    },
-    {
-      question: "¿Qué protocolo de gestión se utiliza para recopilar información de rendimiento y estado de los dispositivos de red de manera centralizada?",
-      options: ["SNMP", "SMTP", "DHCP", "ICMP"],
-      answer: "SNMP",
-      explanation: "SNMP sirve para monitorear el desempeño, recopilar estadísticas e identificar alertas de los nodos conectados."
-    },
-    {
-      question: "¿Qué tipo de amenaza de seguridad de hardware incluye daños ambientales como temperaturas extremas o humedad elevada?",
-      options: ["Threats ambientales (Environmental threats)", "Threats eléctricas", "Threats físicas", "Threats de mantenimiento"],
-      answer: "Threats ambientales (Environmental threats)",
-      explanation: "Son las amenazas provocadas por condiciones del entorno como variaciones térmicas, inundaciones o humedad."
-    },
-    {
-      question: "¿Qué significa el símbolo `!` al ejecutar el comando `ping` en la CLI de un router Cisco?",
-      options: [
-        "Indica que el paquete de acuse de recibo se recibió correctamente (éxito)",
-        "Indica que el tiempo de espera caducó mientras se esperaba respuesta",
-        "Indica que el destino era inalcanzable",
-        "Indica que un firewall bloqueó el paquete"
-      ],
-      answer: "Indica que el paquete de acuse de recibo se recibió correctamente (éxito)",
-      explanation: "En la CLI de Cisco, cada `!` representa una respuesta ICMP Echo Reply recibida de forma exitosa."
-    },
-    {
-      question: "¿Qué componente o software está diseñado para proteger contra comunicaciones no autorizadas desde y hacia una computadora?",
-      options: ["Firewall", "Centro de seguridad", "Antimalware", "Switch de capa 2"],
-      answer: "Firewall",
-      explanation: "Un firewall o cortafuegos analiza el tráfico entrante y saliente para bloquear accesos no autorizados."
-    },
-    {
-      question: "¿Qué comando bloqueará los intentos de inicio de sesión en el RouterA por 30 segundos si se realizan 2 intentos fallidos en 10 segundos?",
-      options: [
-        "login block-for 30 attempts 2 within 10",
-        "login block-for 10 attempts 2 within 30",
-        "login quiet-mode 30 attempts 2 within 10",
-        "service login-block 30 attempts 2 within 10"
-      ],
-      answer: "login block-for 30 attempts 2 within 10",
-      explanation: "La sintaxis correcta en Cisco IOS es `login block-for <segundos_bloqueo> attempts <intentos> within <segundos_evaluacion>`."
-    },
-    {
-      question: "¿Cuál es el propósito de la función de registro (accounting) dentro del marco de seguridad AAA?",
-      options: [
-        "Hacer un seguimiento y registrar las acciones que realizan los usuarios",
-        "Requerir que los usuarios ingresen credenciales válidas",
-        "Determinar a qué archivos o recursos tiene acceso el cliente",
-        "Encriptar las claves secretas en la memoria NVRAM"
-      ],
-      answer: "Hacer un seguimiento y registrar las acciones que realizan los usuarios",
-      explanation: "El registro o Accounting lleva un historial detallado de los comandos ejecutados, tiempos de conexión y recursos utilizados."
-    },
-    {
-      question: "¿Qué tipo de ataque de red puede implicar el uso de herramientas como `nslookup` y `fping`?",
-      options: ["Ataque de reconocimiento", "Ataque de gusano", "Ataque de acceso", "Ataque por denegación de servicio"],
-      answer: "Ataque de reconocimiento",
-      explanation: "Los ataques de reconocimiento emplean escaneos de puertos y búsquedas DNS para mapear la red e identificar vulnerabilidades."
-    },
-    {
-      question: "¿Qué beneficio principal ofrece SSH en comparación con Telnet para administrar dispositivos de red?",
-      options: [
-        "Proporciona cifrado de datos y autenticación más segura durante toda la sesión",
-        "Utiliza enlaces UDP para acelerar la transmisión de comandos",
-        "No requiere configurar contraseñas en las líneas VTY",
-        "Permite conexiones ilimitadas simultáneas sin consumo de recursos"
-      ],
-      answer: "Proporciona cifrado de datos y autenticación más segura durante toda la sesión",
-      explanation: "SSH protege la información enviando todo el tráfico encriptado, mientras que Telnet viaja en texto claro accesible para sniffers."
-    },
-    {
-      question: "¿Cuál es una de las herramientas de seguridad más eficaces para proteger a los hosts individuales de la red contra amenazas internas y externas?",
-      options: ["Firewalls basados en host", "Servidores DHCP", "Protocolo CDP", "Cables de par trenzado apantallado"],
-      answer: "Firewalls basados en host",
-      explanation: "Un firewall instalado localmente en la máquina del usuario restringe el tráfico no deseado directamente en el dispositivo final."
-    },
-    {
-      question: "¿Qué tipo de amenaza de red tiene como objetivo principal impedir que los usuarios legítimos accedan a los servicios o recursos?",
-      options: ["Ataques de denegación de servicio (DoS)", "Explotación de confianza", "Ataques de reconocimiento", "Ataques de suplantación MAC"],
-      answer: "Ataques de denegación de servicio (DoS)",
-      explanation: "Un ataque DoS busca agotar los recursos para dejar fuera de servicio servidores o enlaces de comunicaciones."
-    },
-    {
-      question: "¿Cuáles son los tres servicios proporcionados por el marco de seguridad AAA? (Elija tres opciones)",
-      options: ["Autenticación", "Autorización", "Registro (Accounting)", "Automatización", "Equilibrio automático", "Configuración automática"],
-      answer: "Autenticación",
-      explanation: "El marco AAA se compone de Autenticación, Autorización y Registro (Accounting)."
-    },
-    {
-      question: "¿Qué término describe una debilidad en un sistema o software que lo hace susceptible a sufrir ataques o intrusiones?",
-      options: ["Vulnerabilidad", "Amenaza", "Explotación (Exploit)", "Riesgo secundario"],
-      answer: "Vulnerabilidad",
-      explanation: "Una vulnerabilidad es la falla o debilidad existente en la seguridad de un activo que puede ser aprovechada por una amenaza."
-    },
-    {
-      question: "¿Cuáles son los tres pasos esenciales para habilitar el acceso SSH en las líneas VTY de un router Cisco? (Elija tres opciones)",
-      options: [
-        "Un nombre de host único",
-        "Un nombre de dominio IP (`ip domain-name`)",
-        "Generar claves criptográficas RSA (`crypto key generate rsa`)",
-        "Desactivar el puerto de consola",
-        "Configurar una interfaz Loopback",
-        "Utilizar el protocolo TFTP"
-      ],
-      answer: "Un nombre de host único",
-      explanation: "Para habilitar SSH se debe configurar un nombre de host, definir un nombre de dominio e ingresar `crypto key generate rsa`."
-    },
-    {
-      question: "¿Cuál es el objetivo principal de un ataque de reconocimiento de red?",
-      options: [
-        "Descubrir información y mapear la estructura de la red y sus servicios",
-        "Alterar las tablas de ruteo de los routers principales",
-        "Destruir físicamente los datos del disco duro",
-        "Inundar los enlaces con paquetes basura"
-      ],
-      answer: "Descubrir información y mapear la estructura de la red y sus servicios",
-      explanation: "La fase de reconocimiento busca reunir información previa sobre direcciones IP, puertos y servicios activos para preparar un ataque posterior."
-    },
-    {
-      question: "¿Qué configuración en el firewall local evita que los equipos de una red respondan a las solicitudes de ping enviadas por otros equipos?",
-      options: [
-        "Bloquear el tráfico ICMP de entrada en la regla del firewall",
-        "Desactivar la interfaz Ethernet",
-        "Eliminar la puerta de enlace predeterminada",
-        "Cambiar la máscara de subred a 255.255.255.255"
-      ],
-      answer: "Bloquear el tráfico ICMP de entrada en la regla del firewall",
-      explanation: "El tráfico Echo Request de Ping utiliza el protocolo ICMP; al filtrarlo en el firewall local, el host deja de responder."
-    },
-    {
-      question: "Un usuario no puede acceder al sitio web escribiendo `http://www.cisco.com`, pero sí ingresando la IP `http://72.163.4.161`. ¿Cuál es la causa del problema?",
-      options: [
-        "Falla en la resolución del servidor DNS",
-        "La interfaz del router local está inactiva",
-        "El servidor web rechaza las solicitudes HTTP",
-        "Falta configurar la máscara de subred"
-      ],
-      answer: "Falla en la resolución del servidor DNS",
-      explanation: "Dado que por IP sí hay respuesta, la conectividad IP y la ruta funcionan; la falla está en el servicio DNS que traduce el dominio a IP."
-    },
-    {
-      question: "¿Qué mecanismo de Calidad de Servicio (QoS) se implementa en redes pequeñas para priorizar el tráfico sensible a demoras como streaming de voz o video?",
-      options: ["QoS (Calidad de Servicio)", "Servicios AAA", "Filtrado de direcciones MAC", "Inspección de estado con firewall"],
-      answer: "QoS (Calidad de Servicio)",
-      explanation: "QoS prioriza los paquetes sensibles a la latencia (como voz o videoconferencia) para evitar interrupciones o retrasos."
-    },
-    {
-      question: "¿Cuándo se recomienda que un administrador de red establezca la línea de base (baseline) de rendimiento de la red?",
-      options: [
-        "A intervalos regulares durante un período de tiempo en funcionamiento normal",
-        "Unicamente cuando se reportan caídas masivas en el servicio",
-        "En el punto de menor tráfico del año exclusivamente",
-        "Antes de adquirir o conectar los dispositivos a la red"
-      ],
-      answer: "A intervalos regulares durante un período de tiempo en funcionamiento normal",
-      explanation: "La medición periódica bajo condiciones ordinarias refleja el perfil de tráfico real para futuras comparaciones."
-    },
-    {
-      question: "Al seleccionar dispositivos para una empresa pequeña con proyecciones de alto crecimiento, ¿cuál es el factor de diseño más importante?",
-      options: [
-        "Soporte para modularidad y capacidad de expansión de puertos",
-        "Que los dispositivos tengan interfaces de velocidad fija y baja",
-        "Adquirir únicamente equipos no administrables por costo",
-        "Evitar el uso de routers de salida a Internet"
-      ],
-      answer: "Soporte para modularidad y capacidad de expansión de puertos",
-      explanation: "Los equipos modulares permiten agregar módulos y puertos según la demanda del negocio sin reemplazar los chasis principales."
-    },
-    {
-      question: "¿Qué comando de Cisco IOS permite visualizar las estadísticas detalladas de capa 1 y capa 2 de una interfaz de switch?",
-      options: ["show interfaces", "show ip interface brief", "show running-config", "show mac-address-table"],
-      answer: "show interfaces",
-      explanation: "`show interfaces <interfaz>` despliega errores de trama, colisiones, estado físico y de enlace de datos de la interfaz."
-    },
-    {
-      question: "¿Qué tipo de tráfico de red requiere ser procesado con mayor prioridad debido a su extrema sensibilidad a los retardos de entrega?",
-      options: ["Tráfico de Voz sobre IP (VoIP)", "Transferencia de archivos vía FTP", "Tráfico de correos con SMTP", "Monitoreo con SNMP"],
-      answer: "Tráfico de Voz sobre IP (VoIP)",
-      explanation: "La voz en tiempo real requiere tiempos de latencia ínfimos para evitar distorsiones en la conversación."
-    },
-    {
-      question: "En una red pequeña con un único router de salida al ISP, ¿qué medida de redundancia mantiene la conectividad ante un fallo del router o enlace principal?",
-      options: [
-        "Instalar un segundo router conectado a una ruta o ISP alternativo",
-        "Configurar una segunda dirección MAC en la misma interfaz",
-        "Duplicar el ancho de banda del mismo cable de red",
-        "Aumentar el tamaño de la tabla ARP"
-      ],
-      answer: "Instalar un segundo router conectado a una ruta o ISP alternativo",
-      explanation: "Contar con un segundo equipo de borde y enlace independiente elimina el punto único de falla (SPOF)."
-    },
-    {
-      question: "¿Qué elemento del diseño para escalamiento de red incluye la identificación y documentación de la topología física y lógica?",
-      options: ["Documentación de la red", "Análisis de costos", "Inventario de componentes", "Línea de base de usuarios"],
-      answer: "Documentación de la red",
-      explanation: "La documentación precisa de esquemas físicos y lógicos es el pilar para gestionar ampliaciones y diagnosticar errores."
-    },
-    {
-      question: "¿Qué comando de verificación en Windows muestra la lista histórica de resoluciones de nombres en memoria caché?",
-      options: ["ipconfig /displaydns", "ipconfig /flushdns", "nslookup /all", "netstat -a"],
-      answer: "ipconfig /displaydns",
-      explanation: "`ipconfig /displaydns` lista el contenido de las entradas de nombres traducidos almacenadas en la caché DNS local."
-    },
-    {
-      question: "¿Qué protocolo de enrutamiento o descubrimiento propietario de Cisco opera en la capa de enlace de datos para obtener datos de dispositivos vecinos?",
-      options: ["CDP (Cisco Discovery Protocol)", "LLDP", "ICMP", "ARP"],
-      answer: "CDP (Cisco Discovery Protocol)",
-      explanation: "CDP es un protocolo de Capa 2 propiedad de Cisco utilizado para detectar directamente otros dispositivos Cisco conectados."
-    },
-    {
-      question: "¿Qué parámetro de una prueba ping de Cisco indica que se agotó el tiempo de espera por falta de respuesta del dispositivo de destino?",
-      options: ["Un punto (`.`)", "Un signo de exclamación (`!`)", "La letra `U`", "La letra `Q`"],
-      answer: "Un punto (`.`)",
-      explanation: "En los routers Cisco, el punto `.` significa que transcurrió el tiempo límite sin recibir respuesta del receptor."
-    },
-    {
-      question: "¿Qué parámetro en la prueba ping de Cisco indica que un router intermedio no encontró una ruta válida hacia la red de destino?",
-      options: ["La letra `U` (Destination Unreachable)", "Un punto (`.`)", "Un signo de exclamación (`!`)", "La letra `N`"],
-      answer: "La letra `U` (Destination Unreachable)",
-      explanation: "La letra `U` en la CLI indica que un router devolvió un mensaje ICMP informando que la red destino es inalcanzable."
-    },
-    {
-      question: "¿Qué comando se utiliza en el modo de configuración de interfaz para deshabilitar el envío de mensajes CDP en ese puerto específico?",
-      options: ["no cdp enable", "cdp disable", "no cdp run", "shutdown cdp"],
-      answer: "no cdp enable",
-      explanation: "`no cdp enable` deshabilita CDP en la interfaz seleccionada por razones de seguridad."
-    },
-    {
-      question: "¿Qué ataque malicioso se caracteriza por utilizar técnicas de engaño mediante relaciones o contactos personales directos en lugar de exploits técnicos?",
-      options: ["Ingeniería Social", "Ataque DoS", "Explotación de buffer", "Ataque de fuerza bruta"],
-      answer: "Ingeniería Social",
-      explanation: "La ingeniería social manipula a las personas para que entreguen voluntariamente acceso a información confidencial."
-    },
-    {
-      question: "¿Qué ventaja ofrece el uso de tarjetas inteligentes (Smart Cards) o tokens biométricos en los procesos de seguridad?",
-      options: [
-        "Proporcionan una capa de autenticación multifactor física más robusta",
-        "Aceleran la velocidad de procesamiento de los routers",
-        "Evitan la infección de virus por correo electrónico",
-        "Reemplazan la necesidad de usar firewalls de red"
-      ],
-      answer: "Proporcionan una capa de autenticación multifactor física más robusta",
-      explanation: "Los métodos físicos biométricos o tarjetas inteligentes aumentan la seguridad al exigir una prueba física además del conocimiento de claves."
-    },
-    {
-      question: "¿Qué comando se utiliza en los sistemas operativos tipo Unix/Linux para rastrear los saltos de enrutamiento hacia un destino?",
-      options: ["traceroute", "tracert", "ping -t", "ipconfig /trace"],
-      answer: "traceroute",
-      explanation: "El comando en sistemas Unix/Linux/Cisco IOS es `traceroute`, mientras que en Windows se abrevia como `tracert`."
-    },
-    {
-      question: "¿Qué función cumple el comando `netstat -an` en una línea de comandos?",
-      options: [
-        "Muestra todas las conexiones de red activas con sus direcciones IP y números de puerto en formato numérico",
-        "Muestra la tabla de enrutamiento IP de la máquina local únicamente",
-        "Mide la latencia media de los paquetes ICMP transmitidos",
-        "Descarga e instala las firmas de antivirus más recientes"
-      ],
-      answer: "Muestra todas me las conexiones de red activas con sus direcciones IP y números de puerto en formato numérico",
-      explanation: "Los parámetros `-an` en netstat fuerzan la presentación en números de IP y puertos de los sockets abiertos y escuchando."
-    },
-    {
-      question: "¿Qué tipo de amenaza de red se origina a raíz de un cableado deficiente, falta de etiquetas o manipulación inadecuada de componentes sensibles a descargas electrostáticas (ESD)?",
-      options: ["Amenazas de mantenimiento", "Amenazas ambientales", "Amenazas de acceso", "Amenazas eléctricas"],
-      answer: "Amenazas de mantenimiento",
-      explanation: "Las descargas electrostáticas (ESD), etiquetado confuso y malas prácticas de instalación representan riesgos de mantenimiento físico."
-    }
-  ];
-
-  let currentQuestions = [];
-  let currentIndex = 0;
-  let score = 0;
-  let config = { section: 'all', mode: 'practice', shuffleQ: true, shuffleO: true };
-
-  // Inicialización de contadores en pantalla al cargar la página
-  document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('banco-count-desc').innerText = `Las ${rawQuestions.length} preguntas`;
-    document.getElementById('sum-qcount').innerText = rawQuestions.length;
-  });
-
-  function selectSection(el, val) {
-    document.querySelectorAll('[name="sec"]').forEach(i => i.parentNode.classList.remove('selected'));
-    el.classList.add('selected');
-    config.section = val;
-    document.getElementById('sum-qcount').innerText = val === 'all' ? rawQuestions.length : Math.min(37, rawQuestions.length);
-  }
-
-  function selectMode(el, val) {
-    document.querySelectorAll('[name="mode"]').forEach(i => i.parentNode.classList.remove('selected'));
-    el.classList.add('selected');
-    config.mode = val;
-    document.getElementById('sum-mode').innerText = val === 'practice' ? 'Práctica' : 'Realista';
-  }
-
-  function startQuiz() {
-    config.shuffleQ = document.getElementById('chk-shuffle-q').checked;
-    config.shuffleO = document.getElementById('chk-shuffle-o').checked;
-
-    currentQuestions = [...rawQuestions];
-    if (config.shuffleQ) currentQuestions.sort(() => Math.random() - 0.5);
-    if (config.section === 'random37') currentQuestions = currentQuestions.slice(0, Math.min(37, currentQuestions.length));
-
-    document.getElementById('config-screen').style.display = 'none';
-    document.getElementById('quiz-screen').style.display = 'block';
-    document.getElementById('q-total').innerText = currentQuestions.length;
-
-    showQuestion();
-  }
-
-  function showQuestion() {
-    const q = currentQuestions[currentIndex];
-    document.getElementById('q-curr').innerText = currentIndex + 1;
-    document.getElementById('q-title').innerText = `${currentIndex + 1}. ${q.question}`;
-    document.getElementById('q-explanation').style.display = 'none';
-
-    let opts = [...q.options];
-    if (config.shuffleO) opts.sort(() => Math.random() - 0.5);
-
-    const container = document.getElementById('q-options');
-    container.innerHTML = '';
-
-    opts.forEach(opt => {
-      const btn = document.createElement('button');
-      btn.className = 'opt-btn';
-      btn.innerText = opt;
-      btn.onclick = () => checkAnswer(btn, opt, q);
-      container.appendChild(btn);
-    });
-  }
-
-  function checkAnswer(btn, selectedOpt, q) {
-    const allBtns = document.querySelectorAll('.opt-btn');
-    allBtns.forEach(b => b.disabled = true);
-
-    const isCorrect = selectedOpt === q.answer;
-    if (isCorrect) {
-      btn.classList.add('correct');
-      score++;
-    } else {
-      btn.classList.add('incorrect');
-      allBtns.forEach(b => { if (b.innerText === q.answer) b.classList.add('correct'); });
-    }
-
-    if (config.mode === 'practice') {
-      const expBox = document.getElementById('q-explanation');
-      expBox.innerHTML = `<strong>Explicación:</strong> ${q.explanation}`;
-      expBox.style.display = 'block';
-    }
-  }
-
-  function nextQuestion() {
-    if (currentIndex < currentQuestions.length - 1) {
-      currentIndex++;
-      showQuestion();
-    } else {
-      showResults();
-    }
-  }
-
-  function showResults() {
-    document.getElementById('quiz-screen').style.display = 'none';
-    document.getElementById('result-screen').style.display = 'block';
-    document.getElementById('final-score').innerText = `${score} / ${currentQuestions.length}`;
-    const pct = ((score / currentQuestions.length) * 100).toFixed(0);
-    document.getElementById('final-msg').innerText = pct >= 70 ? `¡Excelente trabajo! Aprobaste con un ${pct}%.` : `Obtuviste ${pct}%. Se recomienda repasar los Módulos 16 y 17 antes de presentar la evaluación oficial.`;
-  }
-</script>
-</body>
-</html>
+        "La interfaz del router de origen se encuentra dañ
